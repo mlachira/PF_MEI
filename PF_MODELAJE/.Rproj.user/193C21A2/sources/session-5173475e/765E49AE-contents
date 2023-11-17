@@ -1,0 +1,25 @@
+---
+title: "Modelo_ZIKA_Completo"
+author: "Melisa Lachira Maya"
+date: "2023-11-17"
+output: html_document
+---
+# Modelo ZIKA
+
+## Formulas
+
+$$
+\begin{array}{l}
+\dot{S}_h=-\beta_1 S_h I_v -\beta_2 S_h I_h + \mu_h p\\
+\dot{I}_h=\beta_1 S_h I_v +\beta_2 S_h I_h - \mu_h (1-p)- \gamma_h I_h \\
+\dot{R}_h= \gamma_h I_h- \mu h R_h
+\end{array}
+$$
+
+$$
+\begin{array}{l}
+\dot{S}_v=-\beta_v S_v I h - \mu v S_v+ \mu v \\
+\dot{E}_v=\beta_v S_v I_h -\mu v E_v- \delta E_v \\
+\dot{I}_v= \delta E_v- \mu v I_v
+\end{array}
+$$

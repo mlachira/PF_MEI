@@ -10,21 +10,77 @@ output: html_document
 
 $$
 \begin{array}{l}
-\dot{S}_h=-\beta_1 S_h I_v -\beta_2 S_h I_h + \mu_h p\\
-\dot{I}_h=\beta_1 S_h I_v +\beta_2 S_h I_h - \mu_h (1-p)- \gamma_h I_h \\
+\dot{S}_h=-\beta_1 S_h I_v -\beta_2 S_h I_h + v_h p- \mu_h S_h \\
+\dot{E}_h=\beta_1 S_h I_v +\beta_2 S_h I_h -\delta_h E_h -\mu_h E_h \\
+\dot{I}_h= \delta_h E_h - \gamma_h I_h + v_h (1-p) - \mu_h I_h\\
 \dot{R}_h= \gamma_h I_h- \mu h R_h
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\dot{S}_v=-\beta_v S_v I h - \mu v S_v+ \mu v \\
-\dot{E}_v=\beta_v S_v I_h -\mu v E_v- \delta E_v \\
+\dot{S}_v=-\beta_v S_v I_h - \mu_vS_v+ v_v \\
+\dot{E}_v=\beta_v S_v I_h -\mu_v E_v- \delta E_v \\
 \dot{I}_v= \delta E_v- \mu v I_v
 \end{array}
 $$
 
 ```{r}
+ZIKA_M <- function(times, state, pars) {
+  Sh <- x[1]    # Humanos suceptibles
+  Eh <- x[2]    # Humanos expuestos
+  Ih <- x[3]    # Humans infectados 
+  Rh <- x[4]    # Humanos recuperados
+  Sv <- x[5]    # Vectores suceptibles
+  Ev <- x[6]    # Vectores expuestos
+  Iv <- x[7]    # Vectores infectados
+  with(as.list(c(state, pars)), {
+    #Ecuaciones humanos
+dSh<- -beta1*Sh*Iv -beta2*Sh*Ih +vh*p -muh*Sh
+dEh<- beta1*Sh*Iv +beta2*Sh*Ih -deltah*Eh -muh*Eh
+dIh<- deltah*Eh -gammah*Ih +vh(1-p) -muh*Ih
+dRh<- gamma*Ih -muh*Rh
+#Ecuaciones vectores
+dSv<- -betav*Sv*Ih -muv*Sv +vv
+dEv<- betav*Sv*Ih -deltav*Ev -muv*Ev
+dIv<- deltav*Ev -muv*Iv
+list(c(dSh, dEh, dIh, dRh, dSv, dEv, dIv))
+  })
+}
+```
 
+```{r}
+#tiempo
+times<- seq(1, 365 , by = 1)
+#Parametros
+parametro<- c(
+  beta1 =0,
+  beta2 =0,
+  muv =0,
+  vh =0,
+  deltah = 0,
+  gammah = 0,
+  betav = 0,
+  muv = 0,
+  vv = 0,
+  deltav = 0,
+  )
+#Condiciones iniciales
+cond_ini<-c(
+  Sh =0,
+  Eh =0,
+  Ih =0,
+  Rh =0,
+  Sv =0,
+  Ev =0,
+  Iv =0,
+  )
+```
+
+```{r}
+out <- as.data.frame(ode(state=cond_ini,
+                      times=times,
+                      fun = ZIKA_M, 
+                         pars  = parametro))  
 ```
 

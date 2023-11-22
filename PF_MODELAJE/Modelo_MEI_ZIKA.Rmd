@@ -26,61 +26,53 @@ $$
 $$
 
 ```{r}
+library(deSolve)
 ZIKA_M <- function(times, state, pars) {
-  Sh <- x[1]    # Humanos suceptibles
-  Eh <- x[2]    # Humanos expuestos
-  Ih <- x[3]    # Humans infectados 
-  Rh <- x[4]    # Humanos recuperados
-  Sv <- x[5]    # Vectores suceptibles
-  Ev <- x[6]    # Vectores expuestos
-  Iv <- x[7]    # Vectores infectados
   with(as.list(c(state, pars)), {
     #Ecuaciones humanos
-dSh<- -beta1*Sh*Iv -beta2*Sh*Ih +vh*p -muh*Sh
-dEh<- beta1*Sh*Iv +beta2*Sh*Ih -deltah*Eh -muh*Eh
-dIh<- deltah*Eh -gammah*Ih +vh(1-p) -muh*Ih
-dRh<- gamma*Ih -muh*Rh
-#Ecuaciones vectores
-dSv<- -betav*Sv*Ih -muv*Sv +vv
-dEv<- betav*Sv*Ih -deltav*Ev -muv*Ev
-dIv<- deltav*Ev -muv*Iv
-list(c(dSh, dEh, dIh, dRh, dSv, dEv, dIv))
+    dSh<- -beta1*Sh*Iv -beta2*Sh*Ih +vh*p -muh*Sh
+    dEh<- beta1*Sh*Iv +beta2*Sh*Ih -deltah*Eh -muh*Eh
+    dIh<- deltah*Eh -gammah*Ih +vh*(1-p) -muh*Ih
+    dRh<- gammah*Ih -muh*Rh
+    #Ecuaciones vectores
+    dSv<- -betav*Sv*Ih -muv*Sv +vv
+    dEv<- betav*Sv*Ih -deltav*Ev -muv*Ev
+    dIv<- deltav*Ev -muv*Iv
+    list(c(dSh, dEh, dIh, dRh, dSv, dEv, dIv))
   })
 }
 ```
 
 ```{r}
 #tiempo
-times<- seq(1, 365 , by = 1)
+times<- seq(1, 200 , by = 1)
 #Parametros
-parametro<- c(
-  beta1 =0,
-  beta2 =0,
-  muv =0,
-  vh =0,
-  deltah = 0,
-  gammah = 0,
-  betav = 0,
-  muv = 0,
-  vv = 0,
-  deltav = 0,
-  )
+parametro<- c(beta1 =0.6,beta2 =0.5, muh =0.4, vh =0.5, deltah = 0.7, gammah = 0.2, betav = 0.7, muv = 0.5, vv = 0.3, deltav = 0.2, p=0.2)
 #Condiciones iniciales
 cond_ini<-c(
-  Sh =0,
-  Eh =0,
-  Ih =0,
-  Rh =0,
-  Sv =0,
-  Ev =0,
-  Iv =0,
-  )
+  Sh =10,
+  Eh =2,
+  Ih =1,
+  Rh =1,
+  Sv =10,
+  Ev =5,
+  Iv =3
+)
+
 ```
 
 ```{r}
-out <- as.data.frame(ode(state=cond_ini,
-                      times=times,
-                      fun = ZIKA_M, 
-                         pars  = parametro))  
+
+out <- ode(y=cond_ini,
+           times=times,
+           fun = ZIKA_M, 
+           parms  = parametro)
+
+plot(out,col="pink")
+par(mfrow=c(1,1))
+
+graficaTG <- matplot(out[ , 1], out[ , 2:8], type="l", xlab = "tiempo", ylab = "Población", 
+                     main= "Gráfica ZIKA", lwd = 2) 
+legend("topright", c("Sh", "Eh", "Ih", "Rh", "Sv", "Ev", "Iv"), col =1:5, lty=1:5, cex=0.5)
 ```
 

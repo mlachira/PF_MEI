@@ -172,6 +172,14 @@ times<- seq(1, 200 , by = 1)
     graficaTG <- matplot(out[ , 1], out[ , 2:12], type="l", xlab = "tiempo", ylab = "Población", 
                          main= "Gráfica ZIKA", lwd = 2) 
     legend("topright", c("Sh", "Eh", "Ih", "Rh", "Sv", "Ev", "Iv", "Sl", "El", "Il", "Rl"), col =1:5, lty=1:5, cex=0.5)
+    
+    
+contact_rate_ZK<- (beta1 + beta2 + beta3 + beta4 + beta5)
+transmission_probability_ZK<- (a1 + a2 + a3 + a4 + a5)
+infectious_period_ZK<- ifh
+RO= contact_rate_ZK * transmission_probability_ZK * infectious_period_ZK
+c("RO=", R0)
+    
 ```
 
 
@@ -244,6 +252,13 @@ EJERCICIO PARA CIUDAD DE MEXICO
     legend("topright", c("S alto riesgo", "E alto riesgo ", "I alto riesgo ", "R alto riesgo", 
                          "S vectores", "E vectores", "I vectores", 
                          "S bajo riesgo", "E bajo riesgo", "I bajo riesgo", "R bajo riesgo"), col = 1:11, lty=1:5, cex=0.5)
+
+contact_rate_ZK_MX<- (beta1 + beta2 + beta3 + beta4 + beta5)
+transmission_probability_ZK_MX<- (a1 + a2 + a3 + a4 + a5)
+infectious_period_ZK_MX<- ifh
+RO= contact_rate_ZK_MX * transmission_probability_ZK_MX * infectious_period_ZK_MX
+c("RO=", R0)    
+    
 ```
 
 
@@ -336,6 +351,11 @@ ZIKA_veracruz <- function(times, state, pars) {
                          main= "Grafica ZIKA", lwd = 2) 
     legend("topright", c("Sh", "Eh", "Ih", "Rh", "Sv", "Ev", "Iv"), col =1:5, lty=1:5, cex=0.5)
 
+contact_rate_ZK_V<- (beta1 + beta2 + beta3 + beta4 + beta5)
+transmission_probability_ZK_V<- (a1 + a2 + a3 + a4 + a5)
+infectious_period_ZK_V<- ifh
+RO= contact_rate_ZK_V * transmission_probability_ZK_V * infectious_period_ZK_V
+c("RO=", R0)
     
 ```
 

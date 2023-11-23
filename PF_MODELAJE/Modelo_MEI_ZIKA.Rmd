@@ -10,23 +10,7 @@ output: html_document
 
 Alto riesgo
 
-$$
-\begin{array}{l}
-\dot{S}_h=-\beta_1 S_h I_v -\beta_2 S_h I_h + v_h p- \mu_h S_h \\
-\dot{E}_h=\beta_1 S_h I_v +\beta_2 S_h I_h -\delta_h E_h -\mu_h E_h \\
-\dot{I}_h= \delta_h E_h - \gamma_h I_h + v_h (1-p) - \mu_h I_h\\
-\dot{R}_h= \gamma_h I_h- \mu h R_h
-\end{array}
-$$
 Vectores
-
-$$
-\begin{array}{l}
-\dot{S}_v=-\beta_v S_v I_h - \mu_vS_v+ v_v \\
-\dot{E}_v=\beta_v S_v I_h -\mu_v E_v- \delta E_v \\
-\dot{I}_v= \delta E_v- \mu v I_v
-\end{array}
-$$
 
 Bajo riesgo
 
@@ -34,18 +18,26 @@ Bajo riesgo
 ```{r}
 library(deSolve)
 ZIKA_M <- function(times, state, pars) {
-<<<<<<< Updated upstream
   with(as.list(c(state, pars)), {
-    #Ecuaciones humanos
-    dSh<- -beta1*Sh*Iv -beta2*Sh*Ih +vh*p -muh*Sh
-    dEh<- beta1*Sh*Iv +beta2*Sh*Ih -deltah*Eh -muh*Eh
-    dIh<- deltah*Eh -gammah*Ih +vh*(1-p) -muh*Ih
-    dRh<- gammah*Ih -muh*Rh
-    #Ecuaciones vectores
-    dSv<- -betav*Sv*Ih -muv*Sv +vv
-    dEv<- betav*Sv*Ih -deltav*Ev -muv*Ev
-    dIv<- deltav*Ev -muv*Iv
-    list(c(dSh, dEh, dIh, dRh, dSv, dEv, dIv))
+
+#Ecuaciones alto riesgo
+dS_H<- n_H*f*p_H - beta2*S_H*I_H*(q_H) - beta2*S_H*I_L - beta4*S_H*I_V - muh*S_H
+dE_H<- beta2*S_H*I_H*(q_H) + beta2*S_H*I_L + beta4*S_H*I_V - muh*E_H - alfa_H*E_H
+dI_H<- alfa_H*E_H + n_H*(1-p_H) - muh*I_H - tetha*I_H - gamma*I_H
+dR_H<- gamma*I_H - muh*R_H
+
+#Ecuaciones vectores
+dS_V<- n_V - beta3*S_V*I_L - beta5*S_V*I_H - muv*S_V
+dE_V<- beta3*S_V*I_L + beta5*S_V*I_H - muv*E_v - alfa_V*E_V
+dI_V<- alfa_V*E_V - muv*I_V
+
+#Ecuaciones bajo riesgo
+dS_L<- n_H*(1-f)*p_H - beta2*S_L*I_L*(q_L) - beta1*S_L*I_V - beta2*S_L*I_H - muh*S_L
+dE_L<- beta2*S_L*I_L*(q_L) + beta1*S_L*I_V + beta2*S_L*I_H - muh*E_L - alfa_H*E_L
+dI_L<- alfa_H*E_L + n_H*(1-p_H) - muh*I_L - tetha*I_L - gamma*I_L
+dR_L<- gamma*I_L - muh*R_L
+list(c(dS_H, dE_H, dI_H, dR_H, dS_V, dE_V, dI_V, dS_L, dE_L, dI_L, dR_L))
+
 =======
   S_H <- x[1]    # Humanos suceptibles de alto riesgo
   E_H <- x[2]    # Humanos expuestos de alto riesgo
@@ -59,69 +51,61 @@ ZIKA_M <- function(times, state, pars) {
   I_L <- x[10]    # Humanos infectados de bajo riesgo
   R_L <- x[11]    # Humanos recuperados de bajo riesgo
   with(as.list(c(state, pars)), {
-    #Ecuaciones alto riesgo
-dS_H<- n_L*f*p_H - beta_H_H*S_H*I_H*(q_H) - beta_H_L*S_H*I_L - beta_H_V*S_H*I_V - mu*S_H
-dE_H<- beta_H_H*S_H*I_H*(q_H) + beta_H_L*S_H*I_L + beta_H_V*S_H*I_V - mu*E_H - alfa_H*E_H
-dI_H<- S_H*E_H + n_H*(1-p_H) - mu*I_H - tetha*I_H - gamma_H*I_H
-dR_H<- gamma_H*I_H - mu*R_H
-#Ecuaciones vectores
-dS_V<- n_V - beta_V_L*S_V*I_L - beta_V_H*S_V*I_H - mu*S_V
-dE_V<- beta_V_L*S_V*I_L + beta_V_H*S_V*I_H - mu*E_v - alfa_V*E_V
-dI_V<- S_V*E_V - mu*I_V
-#Ecuaciones bajo riesgo
-dS_L<- n_L*(1-f)*p_L - beta_L_L*S_L*I_L*(q_L) - beta_L_V*S_L*I_V - beta_L_H*S_L*I_H - mu*S_L
-dE_L<- beta_L_L*S_L*I_L*(q_L) + beta_L_V*S_L*I_V + beta_L_H*S_L*I_H - mu*E_L - alfa_L*E_L
-dI_L<- S_L*E_L + n_L*(1-p_L) - mu*I_L - tetha*I_L - gamma_L*I_L
-dR_L<- gamma_L*I_L - mu*R_L
-list(c(dS_H, dE_H, dI_H, dR_H, dS_V, dE_V, dI_V, dS_L, dE_L, dI_L, dR_L))
->>>>>>> Stashed changes
   })
 }
 ```
 
 ```{r}
-#tiempo
+# TIEMPO
 times<- seq(1, 200 , by = 1)
-#Parametros
-<<<<<<< Updated upstream
-parametro<- c(beta1 =0.6,beta2 =0.5, muh =0.4, vh =0.5, deltah = 0.7, gammah = 0.2, betav = 0.7, muv = 0.5, vv = 0.3, deltav = 0.2, p=0.2)
-#Condiciones iniciales
-cond_ini<-c(
-  Sh =10,
-  Eh =2,
-  Ih =1,
-  Rh =1,
-  Sv =10,
-  Ev =5,
-  Iv =3
+
+
+# PARAMETROS
+parametro<- c(
+Lv <- 8.5 + 35, #Esperanza de vida de mosquitos (dias)
+Lh <- 0, # Esperanza de vida de humanos (dias) #### MODIFICAR POR EDO ####
+iph <- 8.5, # Periodo de incubacion en humanos (dias)
+ipv <- 8.5, # Periodo de incubacion en mosquito (dias)
+ifh <- 4.5, # Periodo infeccioso en humanos (dias)
+muh <- 0.0016, # Mortalidad en humanos 
+muv <- 0.0064, # Mortalidad en vectores 
+alfa_H <- 1/iph, # Tasa de incubacion en humanos 
+alfa_V <- 1/ipv, # Tasa de incubacion en mosquitos
+gamma <- 1/ifh, # Tasa de recuperacion en humanos 
+n_H <- 0, # Tasa de natalidad humanos ##### MODIFICAR POR EDO ####
+n_V <- 0.099, # Tasa de natalidad mosquitos 
+tetha <- 0.005, # Tasa de letalidad asociada a zika 
+p_H <- 0.867, #   Proporcion de la poblacion que nace libre de zika 
+f <- 0, # Proporcion de nacidos que se dirigen al grupo de alto riesgo #### ESTIMADO ####
+b <- 0.45, #Tasa de picadura de mosquito
+a1 <- 0.044, # Probabilidad de transmision, picadura de mosquito infectado a humano susceptible de bajo riesgo (LV)
+a2 <- 0.047, # Probabilidad de transmision, picadura de mosquito susceptible a humano infectado de bajo riesgo (VL)
+a3 <- 0.033, # Probabilidad de transmision por contacto sexual entre humanos susceptibles e infectados (S-I humanos)
+a4 <- 0.0616, # Probabilidad de transmision, mosquito infectado a humano susceptible de alto riesgo (HV)
+a5 <- 0.0658, # Probabilidad de transmision, mosquito susceptible a humano infectado de alto riesgo (VH)
+c <- 0.0055, # contacto sexual entre humano susceptible y humano infectado 
+Nh <- 0 # Poblacion total de humanos  #### MODIFICAR POR EDO ####
+beta1 <- (b*a1*I_V)/Nh, # Tasa de contagio mosquito infectado a persona susceptible de bajo riesgo
+beta2 <- (c*a3*(I_H + I_L)/Nh/Nh, # Tasa de contagio de persona infectada a persona susceptible  
+beta3 <- (b*a2*(I_L))/Nh, # Tasa de contagio persona infectada de bajo riesgo a mosquito susceptible
+beta4 <- (b*a4*I_V)/Nh, # Tasa de contagio mosquito infectado a persona susceptible de alto riesgo 
+beta5 <- (b*a5*(I_H))/Nh # Tasa de contagio persona infectada de alto riesgo a mosquito susceptible
 )
 
-=======
-parametro<- c(
-  n = 0,
-  beta = 0,
-  q = 0,
-  mu = 0,
-  alfa = 0,
-  gamma = 0,
-  p = 0,
-  tetha = 0
-  )
-#Condiciones iniciales
-cond_ini<-c(
-  S_H = 0, 
+# CONDICIONES INICIALES
+cond_ini<-c( 
+  S_H = 0,
   E_H = 0,
   I_H = 0,
-  R_H = 0, 
-  S_V = 0, 
+  R_H = 0,
+  S_V = 0,
   E_V = 0,
   I_V = 0,
-  S_L = 0, 
+  S_L = 0,
   E_L = 0, 
-  I_L = 0,
-  R_L = 0
-  )
->>>>>>> Stashed changes
+  I_L = 0,  
+  R_L = 0)
+
 ```
 
 ```{r}

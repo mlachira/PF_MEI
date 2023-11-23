@@ -174,3 +174,76 @@ times<- seq(1, 200 , by = 1)
     legend("topright", c("Sh", "Eh", "Ih", "Rh", "Sv", "Ev", "Iv", "Sl", "El", "Il", "Rl"), col =1:5, lty=1:5, cex=0.5)
 ```
 
+
+
+
+
+
+EJERCICIO PARA CIUDAD DE MEXICO 
+```{r}
+  # TIEMPO CDMX
+  tiempo_cdmx<- seq(1, 100 , by = 1)
+  
+  # CONDICIONES INICIALES CDMX
+  iniciales_cdmx<-c( 
+    S_H = 60000000, # 100 millones
+    E_H = 9000000, # 16 millones
+    I_H = 5500000,
+    R_H = 1000000,
+    
+    S_V = 3758900,
+    E_V = 2008900,
+    I_V = 4578600,
+    
+    S_L = 40000000,
+    E_L = 7000000, 
+    I_L = 4000000,  
+    R_L = 200000)
+  
+  # PARAMETROS (para ciudad de mexico)
+  pars_cdmx <- c(
+    Lv <- 8.5 + 35, #Esperanza de vida de mosquitos (dias)
+    Lh <- 75*365, # Esperanza de vida de humanos (dias) #### MODIFICAR POR EDO ####
+    iph <- 8.5, # Periodo de incubacion en humanos (dias)
+    ipv <- 8.5, # Periodo de incubacion en mosquito (dias)
+    ifh <- 4.5, # Periodo infeccioso en humanos (dias)
+    muh <- 0.0016, # Mortalidad en humanos 
+    muv <- 0.0064, # Mortalidad en vectores 
+    alfa_H <- 1/iph, # Tasa de incubacion en humanos 
+    alfa_V <- 1/ipv, # Tasa de incubacion en mosquitos
+    gamma <- 1/ifh, # Tasa de recuperacion en humanos 
+    n_H <- 0.0545, # Tasa de natalidad humanos ##### MODIFICAR POR EDO ####
+    n_V <- 0.099, # Tasa de natalidad mosquitos 
+    tetha <- 0.005, # Tasa de letalidad asociada a zika 
+    q <- 0.25, # Proporcion de la poblacion que usa condon
+    p_H <- 0.867, #   Proporcion de la poblacion que nace libre de zika 
+    f <- 0.47, # Proporcion de nacidos que se dirigen al grupo de alto riesgo #### ESTIMADO ####
+    b <- 0.45, #Tasa de picadura de mosquito
+    a1 <- 0.044, # Probabilidad de transmision, picadura de mosquito infectado a humano susceptible de bajo riesgo (LV)
+    a2 <- 0.047, # Probabilidad de transmision, picadura de mosquito susceptible a humano infectado de bajo riesgo (VL)
+    a3 <- 0.033, # Probabilidad de transmision por contacto sexual entre humanos susceptibles e infectados (S-I humanos)
+    a4 <- 0.0616, # Probabilidad de transmision, mosquito infectado a humano susceptible de alto riesgo (HV)
+    a5 <- 0.0658, # Probabilidad de transmision, mosquito susceptible a humano infectado de alto riesgo (VH)
+    c <- 0.0055, # contacto sexual entre humano susceptible y humano infectado 
+    Nh <- 126700000, # Poblacion total de humanos  #### MODIFICAR POR EDO ####
+    beta1 <- (b*a1*I_V)/Nh, # Tasa de contagio mosquito infectado a persona susceptible de bajo riesgo
+    beta2 <- ((c*a3*(I_H + I_L))/(Nh)), # Tasa de contagio de persona infectada a persona susceptible  
+    beta3 <- ((b*a2*(I_L))/(Nh)), # Tasa de contagio persona infectada de bajo riesgo a mosquito susceptible
+    beta4 <- ((b*a4*I_V)/(Nh)), # Tasa de contagio mosquito infectado a persona susceptible de alto riesgo 
+    beta5 <- ((b*a5*(I_H))/(Nh)) # Tasa de contagio persona infectada de alto riesgo a mosquito susceptible
+    )
+    
+  
+    cdmx <- ode(iniciales_cdmx, tiempo_cdmx, ZIKA_M, parms = pars_cdmx)
+    
+    plot(out,col="pink")
+    par(mfrow=c(1,1))
+    
+    cdmx_zikam <- matplot(cdmx[ , 1], cdmx[ , 2:12], type="l", xlab = "Tiempo", ylab = "Población", 
+                         main= "Gráfica ZIKA para CDMX", lwd = 2) 
+    legend("topright", c("S alto riesgo", "E alto riesgo ", "I alto riesgo ", "R alto riesgo", 
+                         "S vectores", "E vectores", "I vectores", 
+                         "S bajo riesgo", "E bajo riesgo", "I bajo riesgo", "R bajo riesgo"), col = 1:11, lty=1:5, cex=0.5)
+```
+
+

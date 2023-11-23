@@ -19,45 +19,43 @@ Bajo riesgo
 library(deSolve)
 ZIKA_M <- function(times, state, pars) {
   with(as.list(c(state, pars)), {
-
-#Ecuaciones alto riesgo
-dS_H<- n_H*f*p_H - beta2*S_H*I_H*(q_H) - beta2*S_H*I_L - beta4*S_H*I_V - muh*S_H
-dE_H<- beta2*S_H*I_H*(q_H) + beta2*S_H*I_L + beta4*S_H*I_V - muh*E_H - alfa_H*E_H
-dI_H<- alfa_H*E_H + n_H*(1-p_H) - muh*I_H - tetha*I_H - gamma*I_H
-dR_H<- gamma*I_H - muh*R_H
-
-#Ecuaciones vectores
-dS_V<- n_V - beta3*S_V*I_L - beta5*S_V*I_H - muv*S_V
-dE_V<- beta3*S_V*I_L + beta5*S_V*I_H - muv*E_v - alfa_V*E_V
-dI_V<- alfa_V*E_V - muv*I_V
-
-#Ecuaciones bajo riesgo
-dS_L<- n_H*(1-f)*p_H - beta2*S_L*I_L*(q_L) - beta1*S_L*I_V - beta2*S_L*I_H - muh*S_L
-dE_L<- beta2*S_L*I_L*(q_L) + beta1*S_L*I_V + beta2*S_L*I_H - muh*E_L - alfa_H*E_L
-dI_L<- alfa_H*E_L + n_H*(1-p_H) - muh*I_L - tetha*I_L - gamma*I_L
-dR_L<- gamma*I_L - muh*R_L
-list(c(dS_H, dE_H, dI_H, dR_H, dS_V, dE_V, dI_V, dS_L, dE_L, dI_L, dR_L))
-
-=======
-  S_H <- x[1]    # Humanos suceptibles de alto riesgo
-  E_H <- x[2]    # Humanos expuestos de alto riesgo
-  I_H <- x[3]    # Humanos infectados de alto riesgo
-  R_H <- x[4]    # Humanos recuperados de alto riesgo
-  S_V <- x[5]    # Vectores suceptibles
-  E_V <- x[6]    # Vectores expuestos
-  I_V <- x[7]    # Vectores infectados
-  S_L <- x[8]    # Humanos suceptibles de bajo riesgo
-  E_L <- x[9]    # Humanos expuestos de bajo riesgo
-  I_L <- x[10]    # Humanos infectados de bajo riesgo
-  R_L <- x[11]    # Humanos recuperados de bajo riesgo
-  with(as.list(c(state, pars)), {
+    #Ecuaciones alto riesgo
+    dS_H<- n_H*f*p_H - beta2*S_H*I_H*q - beta2*S_H*I_L - beta4*S_H*I_V - muh*S_H
+    dE_H<- beta2*S_H*I_H*q + beta2*S_H*I_L + beta4*S_H*I_V - muh*E_H - alfa_H*E_H
+    dI_H<- alfa_H*E_H + n_H*(1-p_H) - muh*I_H - tetha*I_H - gamma*I_H
+    dR_H<- gamma*I_H - muh*R_H
+    #Ecuaciones vectores
+    dS_V<- n_V - beta3*S_V*I_L - beta5*S_V*I_H - muv*S_V
+    dE_V<- beta3*S_V*I_L + beta5*S_V*I_H - muv*E_V - alfa_V*E_V
+    dI_V<- alfa_V*E_V - muv*I_V
+    #Ecuaciones bajo riesgo
+    dS_L<- n_H*(1-f)*p_H - beta2*S_L*I_L*q - beta1*S_L*I_V - beta2*S_L*I_H - muh*S_L
+    dE_L<- beta2*S_L*I_L*q + beta1*S_L*I_V + beta2*S_L*I_H - muh*E_L - alfa_H*E_L
+    dI_L<- alfa_H*E_L + n_H*(1-p_H) - muh*I_L - tetha*I_L - gamma*I_L
+    dR_L<- gamma*I_L - muh*R_L
+    list(c(dS_H, dE_H, dI_H, dR_H, dS_V, dE_V, dI_V, dS_L, dE_L, dI_L, dR_L))
   })
 }
+
 ```
 
 ```{r}
 # TIEMPO
 times<- seq(1, 200 , by = 1)
+
+# CONDICIONES INICIALES
+cond_ini<-c( 
+  S_H = 0,
+  E_H = 0,
+  I_H = 0,
+  R_H = 0,
+  S_V = 0,
+  E_V = 0,
+  I_V = 0,
+  S_L = 0,
+  E_L = 0, 
+  I_L = 0,  
+  R_L = 0)
 
 
 # PARAMETROS
@@ -74,7 +72,8 @@ alfa_V <- 1/ipv, # Tasa de incubacion en mosquitos
 gamma <- 1/ifh, # Tasa de recuperacion en humanos 
 n_H <- 0, # Tasa de natalidad humanos ##### MODIFICAR POR EDO ####
 n_V <- 0.099, # Tasa de natalidad mosquitos 
-tetha <- 0.005, # Tasa de letalidad asociada a zika 
+tetha <- 0.005, # Tasa de letalidad asociada a zika
+q <- 0.25, # Proporcion de la poblacion que usa condon #### ESTIMADO ####
 p_H <- 0.867, #   Proporcion de la poblacion que nace libre de zika 
 f <- 0, # Proporcion de nacidos que se dirigen al grupo de alto riesgo #### ESTIMADO ####
 b <- 0.45, #Tasa de picadura de mosquito
@@ -86,25 +85,12 @@ a5 <- 0.0658, # Probabilidad de transmision, mosquito susceptible a humano infec
 c <- 0.0055, # contacto sexual entre humano susceptible y humano infectado 
 Nh <- 0 # Poblacion total de humanos  #### MODIFICAR POR EDO ####
 beta1 <- (b*a1*I_V)/Nh, # Tasa de contagio mosquito infectado a persona susceptible de bajo riesgo
-beta2 <- (c*a3*(I_H + I_L)/Nh/Nh, # Tasa de contagio de persona infectada a persona susceptible  
-beta3 <- (b*a2*(I_L))/Nh, # Tasa de contagio persona infectada de bajo riesgo a mosquito susceptible
-beta4 <- (b*a4*I_V)/Nh, # Tasa de contagio mosquito infectado a persona susceptible de alto riesgo 
-beta5 <- (b*a5*(I_H))/Nh # Tasa de contagio persona infectada de alto riesgo a mosquito susceptible
-)
+beta2 <- ((c*a3*(I_H + I_L))/(Nh)), # Tasa de contagio de persona infectada a persona susceptible  
+beta3 <- ((b*a2*(I_L))/(Nh)), # Tasa de contagio persona infectada de bajo riesgo a mosquito susceptible
+beta4 <- ((b*a4*I_V)/(Nh)), # Tasa de contagio mosquito infectado a persona susceptible de alto riesgo 
+beta5 <- ((b*a5*(I_H))/(Nh)) # Tasa de contagio persona infectada de alto riesgo a mosquito susceptible
+    )
 
-# CONDICIONES INICIALES
-cond_ini<-c( 
-  S_H = 0,
-  E_H = 0,
-  I_H = 0,
-  R_H = 0,
-  S_V = 0,
-  E_V = 0,
-  I_V = 0,
-  S_L = 0,
-  E_L = 0, 
-  I_L = 0,  
-  R_L = 0)
 
 ```
 

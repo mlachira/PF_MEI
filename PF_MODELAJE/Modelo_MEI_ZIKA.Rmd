@@ -177,7 +177,14 @@ graficaINF_qro<- matplot(out[ , 1],out[ , c(4, 8, 11)], type="l", xlab = "Tiempo
 # pertenecientes a cada una de las clasificaciones dentro del modelo 
 
 # DISCUSION DE LA GRAFICA: 
-   
+
+contact_rate_ZK<- (beta1 + beta2 + beta3 + beta4 + beta5)
+transmission_probability_ZK<- (a1 + a2 + a3 + a4 + a5)
+infectious_period_ZK<- ifh
+R0= contact_rate_ZK * transmission_probability_ZK * infectious_period_ZK
+R_0 <- c("RO=", R0)
+R_0
+
 ```
 
 
@@ -337,6 +344,18 @@ mxINF <- matplot(mx[ , 1], mx[ , c(4, 8, 11)], type="l", xlab = "Tiempo", ylab =
 # ellopuede deberse y muy probablemente se deba a la beta asociada a la infeccion de mosquitos 
 # susceptibles despues de picar a un humano infectado
 
+# CALCULO DE R0 
+contact_rate_ZK_MX- (beta1 + beta2 + beta3 + beta4 + beta5)
+transmission_probability_ZK_MX <- (a1 + a2 + a3 + a4 + a5)
+infectious_period_ZK_MX <- ifh
+R0X = contact_rate_ZK_MX * transmission_probability_ZK_MX * infectious_period_ZK_MX
+R0X <- c(paste0("RO = ", R0X)) 
+R0X
+
+# Igual que en el ejercicio anerior y en los siguientes calculamos el R0 tomando en cuenta 
+# las tasas de contagio, este proceso es identico para todos los casos de este proyecto 
+# el cambio en las tasas en funcion de la poblacion del lugar    
+
 ```
 
 
@@ -452,6 +471,11 @@ graficaINF_veracruz <- matplot(out_veracruz[ , 1],out_veracruz[ , c(4, 8, 11)], 
 
 # DISCUSION DE LA GRAFICA: 
 
+contact_rate_ZK_V<- (beta1 + beta2 + beta3 + beta4 + beta5)
+transmission_probability_ZK_V<- (a1 + a2 + a3 + a4 + a5)
+infectious_period_ZK_V<- ifh
+ROV= contact_rate_ZK_V * transmission_probability_ZK_V * infectious_period_ZK_V
+c("RO=", R0V)
 
 ```
 
@@ -567,18 +591,13 @@ graficaINF_B<- matplot(out_B[ , 1],out_B[ , c(4, 8, 11)], type="l", xlab = "Tiem
 # DISCUSION DE LA GRAFICA: 
 
 
-# CALCULO DE R0 
-contact_rate_ZK- (beta1 + beta2 + beta3 + beta4 + beta5)
-transmission_probability_ZK <- (a1 + a2 + a3 + a4 + a5)
-infectious_period_ZK <- ifh
-R0 = contact_rate_ZK * transmission_probability_ZK * infectious_period_ZK
-c(paste0("RO = ", R0)) 
+contact_rate_ZK_B<- (beta1 + beta2 + beta3 + beta4 + beta5)
+transmission_probability_ZK_B <- (a1 + a2 + a3 + a4 + a5)
+infectious_period_ZK_B <- ifh
+ROB= contact_rate_ZK_B * transmission_probability_ZK_B * infectious_period_ZK_B
+R_0B <- c("RO=", R0B)
+R_0B
 
-# Igual que en el ejercicio anerior y en los siguientes calculamos el R0 tomando en cuenta 
-# las tasas de contagio, este es identico para todos los casos de este proyecto puesto que 
-# estas tasas no varian entre simulaciones, siendo propios y relativos a la infeccion como tal
-# y no realmente al lugar donde se desarrolla la infeccion
-   
 
 ```
 

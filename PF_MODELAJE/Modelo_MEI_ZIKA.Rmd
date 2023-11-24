@@ -4,7 +4,8 @@ author: "Melisa Lachira Maya, Diana Karina Rangel Sandoval, Mayra Beatriz Mendoz
 date: "2023-11-17"
 output: html_document
 ---
-Modelo ZIKA
+
+Modelo ZIKA (general)
 
 ```{r}
 library(deSolve)
@@ -29,6 +30,7 @@ ZIKA_M <- function(times, state, pars) {
 }
 
 ```
+
 
 ```{r}
 # PARAMETROS
@@ -63,7 +65,6 @@ beta3 <- ((b*a2*(I_L))/(Nh)), # Tasa de contagio persona infectada de bajo riesg
 beta4 <- ((b*a4*I_V)/(Nh)), # Tasa de contagio mosquito infectado a persona susceptible de alto riesgo 
 beta5 <- ((b*a5*(I_H))/(Nh)) # Tasa de contagio persona infectada de alto riesgo a mosquito susceptible
     )
-
 
 ```
 
@@ -183,9 +184,6 @@ R_0
 
 
 
-
-
-
 EJERCICIO MEXICO 
 ```{r}
   # TIEMPO MX
@@ -269,7 +267,7 @@ EJERCICIO MEXICO
 # Grafica alto riesgo vs vectores 
 
 mx_HV <- matplot(mx[ , 1], mx[ , 2:8], type="l", xlab = "tiempo", ylab = "Población", 
-                        main = "Gráfica ZIKA México (HV)", lwd = 2) +
+                        main = "Gráfica ZIKA México (HV)", lwd = 2) 
 legend("topright", c("S alto riesgo", "E alto riesgo ", "I alto riesgo ", "R alto riesgo", 
                      "S vectores", "E vectores", "I vectores"), col =1:7, lty=1:7, cex=0.5)
 
@@ -292,7 +290,7 @@ legend("topright", c("S alto riesgo", "E alto riesgo ", "I alto riesgo ", "R alt
 
 # Grafica bajo riesgo vs vectores 
 mx_LV<- matplot(mx[ , 1], mx[ , 6:12], type="l", xlab = "tiempo", ylab = "Población", 
-                        main = "Gráfica ZIKA México (LV)", lwd = 2) +
+                        main = "Gráfica ZIKA México (LV)", lwd = 2) 
 legend("topright", c("S vectores", "E vectores", "I vectores", 
                      "S bajo riesgo", "E bajo riesgo ", "I bajo riesgo ", "R bajo riesgo"), col =1:7, 
                      lty=1:5, cex=0.5)
@@ -312,7 +310,7 @@ legend("topright", c("S vectores", "E vectores", "I vectores",
 
 # Grafica infectados (L-H-V)
 mxINF <- matplot(mx[ , 1], mx[ , c(4, 8, 11)], type="l", xlab = "Tiempo", ylab = "Población", 
-                         main= "Gráfica ZIKA México (infectados)", lwd = 1) +
+                         main= "Gráfica ZIKA México (infectados)", lwd = 1) 
   legend("topright", c( "I alto riesgo ", "I vectores","I bajo riesgo"), col = 1:3, lty=1:5, cex=0.5)
 
 # Esta grafica nos muestra las variaciones en los niveles de individuos infectados
@@ -354,18 +352,26 @@ Para Veracruz
   
   # CONDICIONES INICIALES
   cond_ini_veracruz <-c( 
-  S_H = 1500000,
-  E_H = 950000,
-  I_H = 900000,
-  R_H = 1100000,
-  S_V = 904000,
-  E_V = 690000,
-  I_V = 969000,
-  S_L = 1000000,
-  E_L = 850000, 
-  I_L = 863000,  
-  R_L = 900000)
+  
+  #Condiciones para los de alto riesgo
+  S_H = 2000000,
+  E_H = 1000000,
+  I_H = 800000,
+  R_H = 200000,
+  
+  #Condiciones para los vectores
+  S_V = 400000,
+  E_V = 300000,
+  I_V = 500000,
+  
+  #Condiciones para los de bajo riesgo
+  S_L = 1500000,
+  E_L = 900000, 
+  I_L = 400000,  
+  R_L = 63000)
 
+  
+  
   # PARAMETROS
   parametro_veracruz <- c(
     Lv <- 8.5 + 35, #Esperanza de vida de mosquitos (dias)

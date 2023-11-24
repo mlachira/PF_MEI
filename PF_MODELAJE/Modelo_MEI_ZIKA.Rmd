@@ -329,7 +329,7 @@ mxINF <- matplot(mx[ , 1], mx[ , c(4, 8, 11)], type="l", xlab = "Tiempo", ylab =
 # susceptibles despues de picar a un humano infectado
 
 # CALCULO DE R0 
-contact_rate_ZK_MX- (beta1 + beta2 + beta3 + beta4 + beta5)
+contact_rate_ZK_MX<- (beta1 + beta2 + beta3 + beta4 + beta5)
 transmission_probability_ZK_MX <- (a1 + a2 + a3 + a4 + a5)
 infectious_period_ZK_MX <- ifh
 R0X = contact_rate_ZK_MX * transmission_probability_ZK_MX * infectious_period_ZK_MX

@@ -85,7 +85,10 @@ times_qro<- seq(1, 100 , by = 1)
       I_L = 10000,  
       R_L = 4000)
 
-    
+    I_H = 10000
+    I_V = 3000
+    I_L = 10000
+
   # PARAMETROS
     parametro_qro<- c(
       Lv <- 8.5 + 35, #Esperanza de vida de mosquitos (dias)
@@ -205,7 +208,10 @@ EJERCICIO MEXICO
     I_L = 4000000,  
     R_L = 200000)
 
- 
+ I_H = 5500000
+ I_V = 4578600
+ I_L = 4000000
+
 # En este caso, asi como en los otros, las condiciones iniciales varian, aqui 
 # mucho mas porque la poblacion de todo el pais es mucho mayor, los numero
 # fueron elegidos al azar, en este caso tomando en cuenta la poblacion total 
@@ -461,7 +467,7 @@ graficaINF_veracruz <- matplot(out_veracruz[ , 1],out_veracruz[ , c(4, 8, 11)], 
 contact_rate_ZK_V<- (beta1 + beta2 + beta3 + beta4 + beta5)
 transmission_probability_ZK_V<- (a1 + a2 + a3 + a4 + a5)
 infectious_period_ZK_V<- ifh
-ROV= contact_rate_ZK_V * transmission_probability_ZK_V * infectious_period_ZK_V
+R0V= contact_rate_ZK_V * transmission_probability_ZK_V * infectious_period_ZK_V
 c("RO=", R0V)
 
 ```
@@ -492,7 +498,11 @@ times_B<- seq(1, 100 , by = 1)
       E_L = 2000000, 
       I_L = 575000,  
       R_L = 285000)
- 
+
+I_H = 3000000
+I_V = 393000
+I_L = 575000
+
   # PARAMETROS
     parametro_B<- c(
       Lv <- 8.5 + 35, #Esperanza de vida de mosquitos (dias)
@@ -582,7 +592,7 @@ graficaINF_B<- matplot(out_B[ , 1],out_B[ , c(4, 8, 11)], type="l", xlab = "Tiem
 contact_rate_ZK_B<- (beta1 + beta2 + beta3 + beta4 + beta5)
 transmission_probability_ZK_B <- (a1 + a2 + a3 + a4 + a5)
 infectious_period_ZK_B <- ifh
-ROB= contact_rate_ZK_B * transmission_probability_ZK_B * infectious_period_ZK_B
+R0B= contact_rate_ZK_B * transmission_probability_ZK_B * infectious_period_ZK_B
 R_0B <- c("RO=", R0B)
 R_0B
 

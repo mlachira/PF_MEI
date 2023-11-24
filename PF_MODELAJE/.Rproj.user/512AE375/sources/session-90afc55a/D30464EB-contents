@@ -3,10 +3,10 @@
 
 library(deSolve)
 
+  # Tiempo para Queretaro
 times_qro<- seq(1, 100 , by = 1)
 
-
-# Condiciones iniciales
+  # Condiciones iniciales
 cond_ini_qro<-c( 
   
   #Condiciones para alto riesgo
@@ -35,7 +35,7 @@ I_L = 10000
 # Los numeros fueron elegidos al azar, manteniendose dentro de la poblacion total real.
 
 
-# PARAMETROS
+  # PARAMETROS
 parametro_qro<- c(
   Lv <- 8.5 + 35, #Esperanza de vida de mosquitos (dias)
   Lh <- 75.9* 365, # Esperanza de vida de humanos (dias) #### DIFERENTE PARA CADA LUGAR ####
@@ -73,7 +73,7 @@ parametro_qro<- c(
 # Con los parametros establecidos, se procede a la simulacion:
 
 
-# SIMULACION
+  # SIMULACION
 
 out <- ode(y=cond_ini_qro,
            times=times_qro,
@@ -97,7 +97,7 @@ legend("topright", c("S alto riesgo", "E alto riesgo ", "I alto riesgo ", "R alt
 
 
 
-# Grafica alto riesgo vs vectores 
+  # Grafica alto riesgo vs vectores 
 
 graficaHV_qro<- matplot(out[ , 1], out[ , 2:8], type="l", xlab = "tiempo", ylab = "Población", 
                         main = "Gráfica ZIKA Querétaro (HV)", lwd = 2) 
@@ -112,7 +112,7 @@ legend("topright", c("S alto riesgo", "E alto riesgo ", "I alto riesgo ", "R alt
 # alto riesgo vs vectores
 
 
-# DISCUSION DE LA GRAFICA: 
+  # DISCUSION DE LA GRAFICA: 
 #La grafica muestra que los recuperados de alto riesgo aumentan rapidamente al inicio de la enfermedad y se mantienen altos al pasar los dias.
 #Es decir, los individuos que no usaron repelente, en promedio, se recuperan rapidamente.
 #La cantidad de susceptibles disminuye rapidamente al inicio y se mantiene baja a lo largo del tiempo (al menos por los 100 dias que se muestran).
@@ -122,7 +122,7 @@ legend("topright", c("S alto riesgo", "E alto riesgo ", "I alto riesgo ", "R alt
 
 
 
-# Grafica bajo riesgo vs vectores 
+  # Grafica bajo riesgo vs vectores 
 graficaLV_qro<- matplot(out[ , 1], out[ , 6:12], type="l", xlab = "tiempo", ylab = "Población", 
                         main = "Gráfica ZIKA Querétaro (LV)", lwd = 2) 
 legend("topright", c("S vectores", "E vectores", "I vectores", 
@@ -132,7 +132,7 @@ legend("topright", c("S vectores", "E vectores", "I vectores",
 # Esta grafica ejemplifica la relacion entre individuos humanos de bajo riesgo e individuos de clase
 # vector
 
-# DISCUSION DE LA GRAFICA: 
+  # DISCUSION DE LA GRAFICA: 
 #Hay una mayor cantidad de vectores susceptibles que de individuos expuestos que no usaron repelente (bajo riesgo).
 #Los infectados de bajo riesgo aumentan al inicio del tiempo y alcanzan su pico aproximadamente despues de 10 dias, disminuyendo desde ahi.
 #La cantidad de vectores infectados y expuestos es baja por la cantidad tan baja que hay de mosquitos en general en comparacion con los humanos.
@@ -140,7 +140,7 @@ legend("topright", c("S vectores", "E vectores", "I vectores",
 
 
 
-# Grafica infectados (L-H-V)
+  # Grafica infectados (L-H-V)
 graficaINF_qro<- matplot(out[ , 1],out[ , c(4, 8, 11)], type="l", xlab = "Tiempo", ylab = "Población", 
                          main= "Gráfica ZIKA Querétaro (infectados)", lwd = 1)
 legend("topright", c( "I alto riesgo ", "I vectores","I bajo riesgo"), col = 1:3, lty=1:5,
@@ -149,14 +149,14 @@ legend("topright", c( "I alto riesgo ", "I vectores","I bajo riesgo"), col = 1:3
 # Esta grafica nos muestra las variaciones en los niveles de individuos infectados
 # pertenecientes a cada una de las clasificaciones dentro del modelo 
 
-# DISCUSION DE LA GRAFICA: 
+  # DISCUSION DE LA GRAFICA: 
 #Existe una mayor cantidad de individuos de alto riesgo infectados que de cualquier otro tipo.
 #El pico de casos es alcanzado despues de aproximadamente 10 dias para los infectados de alto y bajo riesgo.
 #No se aprecian tantos vectores infectados por la cantidad de mosquitos que hay en relacion a la de humanos, que es mucho mayor.
 #Existen mas infectados de bajo riesgo que vectores infectados, sin embargo hay aproximadamente mas del doble de infectados de alto riesgo.
 
 
-# ESTIMACION DEL R0 
+  # ESTIMACION DEL R0 
 contact_rate_ZK<- (beta1 + beta2 + beta3 + beta4 + beta5)
 transmission_probability_ZK<- (a1 + a2 + a3 + a4 + a5)
 infectious_period_ZK<- ifh
@@ -164,7 +164,7 @@ R0= contact_rate_ZK * transmission_probability_ZK * infectious_period_ZK
 R_0 <- c("RO=", R0)
 R_0
 
-# DISCUSION DEL R0
+  # DISCUSION DEL R0
 #El R0 resultante es de "0.000704412025714286"
 #Un R0 estima la velocidad con la que una enfermedad se esparce en una poblacion a traves del tiempo
 #Es decir, es el numero de casos en promedio que surgen de un individuo.

@@ -84,8 +84,8 @@ times_qro<- seq(1, 100 , by = 1)
       E_L = 8000, 
       I_L = 10000,  
       R_L = 4000)
-  
-  
+
+    
   # PARAMETROS
     parametro_qro<- c(
       Lv <- 8.5 + 35, #Esperanza de vida de mosquitos (dias)
@@ -370,7 +370,9 @@ Para Veracruz
   I_L = 400000,  
   R_L = 63000)
 
-  
+  I_H = 800000
+  I_L = 400000
+  I_V = 50000
   
   # PARAMETROS
   parametro_veracruz <- c(
@@ -406,7 +408,7 @@ Para Veracruz
   )
     
     out_veracruz <- ode(y=cond_ini_veracruz,
-               times=times,
+               times=times_veracruz,
                fun = ZIKA_M, 
                parms  = parametro_veracruz)
     

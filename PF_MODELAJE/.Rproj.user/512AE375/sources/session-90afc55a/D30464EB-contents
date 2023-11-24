@@ -30,6 +30,11 @@ I_H = 10000
 I_V = 3000
 I_L = 10000
 
+# Las condiciones iniciales varian dependiendo del lugar, en este caso 
+# se contemplo a una poblacion total de 1,050,000 habitantes.
+# Los numeros fueron elegidos al azar, manteniendose dentro de la poblacion total real.
+
+
 # PARAMETROS
 parametro_qro<- c(
   Lv <- 8.5 + 35, #Esperanza de vida de mosquitos (dias)
@@ -63,6 +68,12 @@ parametro_qro<- c(
   beta5 <- ((b*a5*(I_H))/(Nh)) # Tasa de contagio persona infectada de alto riesgo a mosquito susceptible
 )
 
+# Todas las simulaciones de los lugares contemplan los mismos parametros para casi todo.
+# Unicamente se modificaron aquellos que son propios del lugar (Qro en este caso). 
+# Con los parametros establecidos, se procede a la simulacion:
+
+
+# SIMULACION
 
 out <- ode(y=cond_ini_qro,
            times=times_qro,
@@ -77,6 +88,12 @@ graficaTG <- matplot(out[ , 1], out[ , 2:12], type="l", xlab = "tiempo", ylab = 
 legend("topright", c("S alto riesgo", "E alto riesgo ", "I alto riesgo ", "R alto riesgo", 
                      "S vectores", "E vectores", "I vectores", 
                      "S bajo riesgo", "E bajo riesgo", "I bajo riesgo", "R bajo riesgo"), col =1:5, lty=1:5, cex=0.5)
+
+# En esta primera grafica obtenemos los valores de todas las variables dentro del modelo general, donde
+# escomplicado observar el curso individual de las variables. 
+# Por ello, realizamos graficas que acoten la informacion y
+# donde se aprecien las variaciones de los individuos infectados de cada grupo
+# asi como interacciones entre humanos y vectores en graficas distintas
 
 
 

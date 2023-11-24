@@ -1,6 +1,8 @@
 
 ### MODELO PARA MEXICO (PAIS) ###
 
+library(deSolve)
+
 # TIEMPO MX
 tiempo_mx<- seq(1, 100 , by = 1)
 
